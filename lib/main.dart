@@ -19,13 +19,21 @@ class BMICalculator extends StatelessWidget {
 }
 
 class InputPage extends StatefulWidget {
-  const InputPage({Key? key}) : super(key: key);
+  InputPage({Key? key}) : super(key: key);
 
   @override
   State<InputPage> createState() => _InputPageState();
 }
 
 class _InputPageState extends State<InputPage> {
+  Gender selectedGender = Gender.NONE;
+
+  void selectGender(Gender gender) {
+    setState(() {
+      selectedGender = gender;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,33 +49,45 @@ class _InputPageState extends State<InputPage> {
                 child: Row(
               children: [
                 Expanded(
-                    child: IconContentCard(
+                    child: GestureDetector(
+                      onTap: (){
+                        selectGender(Gender.MALE);
+                      },
+                      child: IconContentCard(
                   icon: FontAwesomeIcons.person,
                   label: 'Male',
-                )),
+                  isSelected: selectedGender == Gender.MALE,
+                ),
+                    )),
                 Expanded(
+                  child: GestureDetector(
+                    onTap: (){
+                      selectGender(Gender.FEMALE);
+                    },
                     child: IconContentCard(
-                  icon: FontAwesomeIcons.personDress,
-                  label: 'Female',
-                )),
+                        icon: FontAwesomeIcons.personDress,
+                        label: 'Female',
+                        isSelected: selectedGender == Gender.FEMALE),
+                  ),
+                ),
               ],
             )),
             Expanded(
-                child: ReusableCard(
-              color: activeCardColor,
+                child: RoundedCard(
+              color: Color(0xFF111428),
               child: Container(),
             )),
             Expanded(
               child: Row(
                 children: [
                   Expanded(
-                      child: ReusableCard(
-                    color: activeCardColor,
+                      child: RoundedCard(
+                    color: Color(0xFF111428),
                     child: Container(),
                   )),
                   Expanded(
-                      child: ReusableCard(
-                    color: activeCardColor,
+                      child: RoundedCard(
+                    color: Color(0xFF111428),
                     child: Container(),
                   ))
                 ],
@@ -84,3 +104,5 @@ class _InputPageState extends State<InputPage> {
     );
   }
 }
+
+enum Gender { NONE, MALE, FEMALE }

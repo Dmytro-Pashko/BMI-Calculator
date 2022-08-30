@@ -1,4 +1,4 @@
-import 'package:bmi_calculator/reusable_card.dart';
+import 'package:bmi_calculator/rounded_card.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -27,6 +27,7 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> {
   Gender selectedGender = Gender.NONE;
+  int height = 180;
 
   void selectGender(Gender gender) {
     setState(() {
@@ -49,34 +50,70 @@ class _InputPageState extends State<InputPage> {
                 child: Row(
               children: [
                 Expanded(
-                    child: GestureDetector(
-                      onTap: (){
-                        selectGender(Gender.MALE);
-                      },
-                      child: IconContentCard(
+                    child: IconContentCard(
                   icon: FontAwesomeIcons.person,
                   label: 'Male',
                   isSelected: selectedGender == Gender.MALE,
-                ),
-                    )),
+                  onClick: () {
+                    selectGender(Gender.MALE);
+                  },
+                )),
                 Expanded(
-                  child: GestureDetector(
-                    onTap: (){
+                  child: IconContentCard(
+                    icon: FontAwesomeIcons.personDress,
+                    label: 'Female',
+                    isSelected: selectedGender == Gender.FEMALE,
+                    onClick: () {
                       selectGender(Gender.FEMALE);
                     },
-                    child: IconContentCard(
-                        icon: FontAwesomeIcons.personDress,
-                        label: 'Female',
-                        isSelected: selectedGender == Gender.FEMALE),
                   ),
                 ),
               ],
             )),
             Expanded(
-                child: RoundedCard(
-              color: Color(0xFF111428),
-              child: Container(),
-            )),
+              child: RoundedCard(
+                color: Color(0xFF111428),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Height',
+                      style: TextStyle(color: Color(0xFF8E8E99), fontSize: 20),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: [
+                        Text(
+                          '$height',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 40),
+                        ),
+                        Text(
+                          'cm',
+                          style:
+                              TextStyle(color: Color(0xFF8E8E99), fontSize: 20),
+                        ),
+                      ],
+                    ),
+                    Slider(
+                        value: height.toDouble(),
+                        min: 120.0,
+                        max: 220.0,
+                        activeColor: Color(0xFFEB1555),
+                        inactiveColor: Color(0xFF8E8E99),
+                        onChanged: (newValue) {
+                          setState(() {
+                            height = newValue.round();
+                          });
+                        })
+                  ],
+                ),
+              ),
+            ),
             Expanded(
               child: Row(
                 children: [

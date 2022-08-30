@@ -1,4 +1,4 @@
-import 'package:bmi_calculator/reusable_card.dart';
+import 'package:bmi_calculator/rounded_card.dart';
 import 'package:flutter/material.dart';
 
 const activeCardIconColor = Color(0xFFFFFFFF);
@@ -12,36 +12,42 @@ class IconContentCard extends StatelessWidget {
       {Key? key,
       required this.icon,
       required this.label,
-      required this.isSelected})
+      required this.isSelected,
+      required this.onClick})
       : super(key: key);
 
   final IconData icon;
   final String label;
   final bool isSelected;
+  final Function() onClick;
 
   @override
   Widget build(BuildContext context) {
-    return RoundedCard(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            size: 80,
-            color: isSelected ? activeCardIconColor : inactiveCardIconColor,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            label,
-            style: TextStyle(
-                color: isSelected ? activeCardIconColor : inactiveCardIconColor,
-                fontSize: 20),
-          )
-        ],
+    return GestureDetector(
+      onTap: onClick,
+      child: RoundedCard(
+        color: isSelected ? activeCardColor : inactiveCardColor,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: 80,
+              color: isSelected ? activeCardIconColor : inactiveCardIconColor,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              label,
+              style: TextStyle(
+                  color:
+                      isSelected ? activeCardIconColor : inactiveCardIconColor,
+                  fontSize: 20),
+            )
+          ],
+        ),
       ),
-      color: isSelected ? activeCardColor : inactiveCardColor,
     );
   }
 }

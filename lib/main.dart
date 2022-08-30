@@ -1,10 +1,11 @@
-import 'package:bmi_calculator/rounded_card.dart';
+import 'package:bmi_calculator/round_incremental_card.dart';
+import 'package:bmi_calculator/round_slider_card.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'icon_content_card.dart';
 
-void main() => runApp(BMICalculator());
+void main() => runApp(const BMICalculator());
 
 const bottomContainerColor = Color(0xFFEB1555);
 const bottomContainerHeight = 80.0;
@@ -25,9 +26,14 @@ class InputPage extends StatefulWidget {
   State<InputPage> createState() => _InputPageState();
 }
 
+const minHeight = 120;
+const maxHeight = 220;
+
 class _InputPageState extends State<InputPage> {
-  Gender selectedGender = Gender.NONE;
+  Gender selectedGender = Gender.MALE;
   int height = 180;
+  int weight = 70;
+  int age = 20;
 
   void selectGender(Gender gender) {
     setState(() {
@@ -35,12 +41,24 @@ class _InputPageState extends State<InputPage> {
     });
   }
 
+  void onWeightChanged(int newWeight) {
+    setState(() {
+      weight = newWeight;
+    });
+  }
+
+  void onAgeChanged(int newAge) {
+    setState(() {
+      age = newAge;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF0A0D22),
-        title: Text('BMI Calculator'),
+        backgroundColor: const Color(0xFF0A0D22),
+        title: const Text('BMI Calculator'),
       ),
       body: Container(
         color: Color(0xFF080A1C),
@@ -52,7 +70,7 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                     child: IconContentCard(
                   icon: FontAwesomeIcons.person,
-                  label: 'Male',
+                  label: 'MALE',
                   isSelected: selectedGender == Gender.MALE,
                   onClick: () {
                     selectGender(Gender.MALE);
@@ -61,7 +79,7 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   child: IconContentCard(
                     icon: FontAwesomeIcons.personDress,
-                    label: 'Female',
+                    label: 'FEMALE',
                     isSelected: selectedGender == Gender.FEMALE,
                     onClick: () {
                       selectGender(Gender.FEMALE);
@@ -71,70 +89,62 @@ class _InputPageState extends State<InputPage> {
               ],
             )),
             Expanded(
-              child: RoundedCard(
-                color: Color(0xFF111428),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Height',
-                      style: TextStyle(color: Color(0xFF8E8E99), fontSize: 20),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.baseline,
-                      textBaseline: TextBaseline.alphabetic,
-                      children: [
-                        Text(
-                          '$height',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w900,
-                              fontSize: 40),
-                        ),
-                        Text(
-                          'cm',
-                          style:
-                              TextStyle(color: Color(0xFF8E8E99), fontSize: 20),
-                        ),
-                      ],
-                    ),
-                    Slider(
-                        value: height.toDouble(),
-                        min: 120.0,
-                        max: 220.0,
-                        activeColor: Color(0xFFEB1555),
-                        inactiveColor: Color(0xFF8E8E99),
-                        onChanged: (newValue) {
-                          setState(() {
-                            height = newValue.round();
-                          });
-                        })
-                  ],
-                ),
+              child: RoundSliderCard(
+                currentValue: height,
+                minValue: minHeight,
+                maxValue: maxHeight,
+                units: 'cm',
+                label: 'HEIGHT',
+                onValueChanged: (newHeight) {
+                  setState(() {
+                    height = newHeight;
+                  });
+                },
               ),
             ),
             Expanded(
               child: Row(
                 children: [
                   Expanded(
-                      child: RoundedCard(
-                    color: Color(0xFF111428),
-                    child: Container(),
-                  )),
+                    child: RoundIncrementalCard(
+                      label: 'WEIGHT',
+                      currentValue: weight,
+                      decrementButtonIcon: FontAwesomeIcons.minus,
+                      incrementButtonIcon: FontAwesomeIcons.plus,
+                      onDecremented: () {
+                        onWeightChanged(weight - 1);
+                      },
+                      onIncremented: () {
+                        onWeightChanged(weight + 1);
+                      },
+                    ),
+                  ),
                   Expanded(
-                      child: RoundedCard(
-                    color: Color(0xFF111428),
-                    child: Container(),
-                  ))
+                    child: RoundIncrementalCard(
+                      label: 'AGE',
+                      currentValue: age,
+                      decrementButtonIcon: FontAwesomeIcons.minus,
+                      incrementButtonIcon: FontAwesomeIcons.plus,
+                      onDecremented: () {
+                        onAgeChanged(age - 1);
+                      },
+                      onIncremented: () {
+                        onAgeChanged(age + 1);
+                      },
+                    ),
+                  )
                 ],
               ),
             ),
             Container(
-              color: bottomContainerColor,
-              width: double.infinity,
-              height: bottomContainerHeight,
-            )
+                alignment: Alignment.center,
+                color: bottomContainerColor,
+                width: double.infinity,
+                height: bottomContainerHeight,
+                child: const Text(
+                  'CALCULATE YOUR BMI',
+                  style: TextStyle(color: Colors.white, fontSize: 15),
+                ))
           ],
         ),
       ),
@@ -142,4 +152,4 @@ class _InputPageState extends State<InputPage> {
   }
 }
 
-enum Gender { NONE, MALE, FEMALE }
+enum Gender { MALE, FEMALE }

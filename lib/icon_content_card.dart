@@ -3,18 +3,17 @@ import 'package:flutter/material.dart';
 
 const activeCardIconColor = Color(0xFFFFFFFF);
 const inactiveCardIconColor = Color(0xFF8E8E99);
-
 const activeCardColor = Color(0xFF1D1F33);
-const inactiveCardColor = Color(0xFF111328);
+const inactiveCardColor = Color(0xFF1D1F33);
 
 class IconContentCard extends StatelessWidget {
-  const IconContentCard(
-      {Key? key,
-      required this.icon,
-      required this.label,
-      required this.isSelected,
-      required this.onClick})
-      : super(key: key);
+  const IconContentCard({
+    Key? key,
+    required this.icon,
+    required this.label,
+    required this.isSelected,
+    required this.onClick,
+  }) : super(key: key);
 
   final IconData icon;
   final String label;
@@ -43,7 +42,7 @@ class IconContentCard extends StatelessWidget {
               style: TextStyle(
                   color:
                       isSelected ? activeCardIconColor : inactiveCardIconColor,
-                  fontSize: 20),
+                  fontSize: 15),
             )
           ],
         ),

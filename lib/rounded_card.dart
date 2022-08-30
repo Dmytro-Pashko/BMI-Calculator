@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 class RoundedCard extends StatelessWidget {
-  RoundedCard({Key? key, required this.child, required this.color})
-      : super(key: key);
+  const RoundedCard({
+    Key? key,
+    required this.child,
+    required this.color,
+  }) : super(key: key);
 
   final Widget child;
   final Color color;

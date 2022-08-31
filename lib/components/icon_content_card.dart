@@ -1,5 +1,6 @@
-import 'package:bmi_calculator/rounded_card.dart';
 import 'package:flutter/material.dart';
+
+import 'rounded_card.dart';
 
 const activeCardIconColor = Color(0xFFFFFFFF);
 const inactiveCardIconColor = Color(0xFF8E8E99);

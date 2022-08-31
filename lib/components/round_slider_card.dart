@@ -1,5 +1,6 @@
-import 'package:bmi_calculator/rounded_card.dart';
 import 'package:flutter/material.dart';
+
+import 'rounded_card.dart';
 
 const backgroundColor = Color(0xFF111428);
 const primaryColor = Colors.white;

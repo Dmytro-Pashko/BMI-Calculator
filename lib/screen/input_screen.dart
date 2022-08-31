@@ -1,10 +1,12 @@
-import 'package:bmi_calculator/bottom_navigable_button.dart';
-import 'package:bmi_calculator/round_incremental_card.dart';
-import 'package:bmi_calculator/round_slider_card.dart';
+import 'package:bmi_calculator/BMICalculator.dart';
+import 'package:bmi_calculator/components/round_incremental_card.dart';
+import 'package:bmi_calculator/screen/result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../icon_content_card.dart';
+import '../components/bottom_navigable_button.dart';
+import '../components/icon_content_card.dart';
+import '../components/round_slider_card.dart';
 
 class InputScreen extends StatefulWidget {
   const InputScreen({Key? key}) : super(key: key);
@@ -128,7 +130,17 @@ class _InputScreenState extends State<InputScreen> {
             NavigableButton(
                 label: 'CALCULATE YOUR BMI',
                 onClick: () {
-                  Navigator.pushNamed(context, '/result');
+                  BMICalculator calculator = BMICalculator(height, weight);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ResultScreen(
+                        result: calculator.getResult(),
+                        value: calculator.getValue(),
+                        interpretation: calculator.getInterpretation(),
+                      ),
+                    ),
+                  );
                 }),
           ],
         ),
